@@ -1,31 +1,41 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import {useState} from 'react';
-import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, ScrollView, FlatList } from 'react-native';
 
 export default function App() {
   const [enteredGoal, setEnteredGoal] = useState('');
+  const [courseGoals, setCourseGoals] = useState([]);
+
   const goalInputHandler = (enteredText) => {
     setEnteredGoal(enteredText);
   };
-  //const courseGoals[courseGoalItems, setCourseGoals] = useState([]);
-  const addGoalHandler = () =>{
-    console.log(enteredGoal);
 
-  }
+
+  const addGoalHandler = () =>{
+    setCourseGoals(currentGoals => [...courseGoals, {id: Math.random().toString(), value:enteredGoal}]);
+
+  };
 
   return(
           <View style = {styles.screen}>
             <View style = {styles.inputContainer}>
               <TextInput
               placeholder = "Project Goal"
-              style = {style = styles.input}
+              style = {styles.input}
               onChangeText = {goalInputHandler}
               value = {enteredGoal}
               />
               <Button title = "Add" onPress = {addGoalHandler} />
             </View>
-            <View />
+            <FlatList
+            keyExtractor = {(item, index) => item.id}
+            data = {courseGoals} renderItem = {itemData => (
+              <View style = {styles.listItem}>
+              <Text> {itemData.item.value} </Text>
+              </View>
+            )}
+            />
           </View>
 
 
@@ -73,11 +83,16 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderWidth: 1,
     padding: 10
+  },
+
+  listItem:{
+    padding: 10,
+    backgroundColor: '#ccc',
+    borderColor: 'black',
+    borderWidth: 1,
+    marginVertical: 10,
+
+
   }
 
 });
-
-
-//***********************
-          //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
-//***********************
